@@ -1,0 +1,8 @@
+module.exports = {
+    database: {
+        server: 'NAME.database.windows.net',
+        database: '',
+        user: '',
+        password: ''   
+    }
+}
