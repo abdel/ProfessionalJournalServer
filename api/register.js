@@ -13,6 +13,7 @@ var api = {
         
         if (!_.isEmpty(checkUsername)) {
             res.status(500).send({ error: "Username already exists." });
+            return;
         }
         
         var insertQuery = {
