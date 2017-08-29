@@ -15,7 +15,7 @@ var api = {
             ]
         });
 
-        if (_.isEmpty(checkUsername)) {
+        if (_.isEmpty(checkAuthor)) {
             res.status(500).send({ error: "Incorrect username or password." });
             return;
         }
