@@ -4,12 +4,11 @@ var table = azureMobileApps.table();
 
 // Defines the list of columns
 table.columns = {
-  "title": "string",
-  "location": "string",
-  "hidden": "boolean",
-  "deleted": "boolean",
-  "entry_version_id": "string",
-  "journal_id": "string"
+  "text_entry": "string",
+  "attachment": "string",
+  "modify_reason": "string",
+  "version_track_id": "string",
+  "entry_id": "string"
 };
 
 // Turns off dynamic schema
