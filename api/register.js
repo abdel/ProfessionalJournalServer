@@ -23,11 +23,16 @@ var api = {
 
         // Insert new author
         var insertQuery = {
-            sql: 'INSERT INTO Author (username, password) VALUES (@username, @password)',
-            parameters: [
-                { name: 'username', value: req.body.Username },
-                { name: 'password', value: req.body.Password }
-            ]
+          sql: `INSERT INTO Author (first_name, last_name, username, password, email, date_of_birth) 
+            VALUES (@first_name, @last_name, @username, @password, @email, @date_of_birth)`,
+          parameters: [
+            { name: 'username', value: req.body.Username },
+            { name: 'password', value: req.body.Password },
+            { name: 'first_name', value: req.body.FirstName },
+            { name: 'last_name', value: req.body.LastName },
+            { name: 'email', value: req.body.Email },
+            { name: 'date_of_birth', value: req.body.DateOfBirth }
+          ]
         };
 
         // Execute insert query and return result
