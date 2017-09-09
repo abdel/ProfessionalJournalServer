@@ -4,7 +4,7 @@ var table = azureMobileApps.table();
 
 // Defines the list of columns
 table.columns = {
-  "title" "string",
+  "title": "string",
   "location": "string",
   "hidden": "boolean",
   "deleted": "boolean",
