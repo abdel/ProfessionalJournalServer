@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": ">=7.0.0"
+    "node": "=8.4.0"
   },
   "name": "professionaljournalserver",
   "version": "0.0.1",

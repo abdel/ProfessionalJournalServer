@@ -38,6 +38,6 @@ mobileApp.api.import('./api')
 mobileApp.tables.initialize()
   .then(function () {
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
-    app.listen() // Listen for requests
+    app.listen(port) // Listen for requests
     console.log(`Backend API listening on port ${port}`)
   })
