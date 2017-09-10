@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000
 
 // This is a base-level Azure Mobile App SDK.
 const express = require('express')
+const session = require('express-session')
 const azureMobileApps = require('azure-mobile-apps')
 
 // Set up a standard Express app
@@ -26,6 +27,18 @@ const mobileApp = azureMobileApps({
   swagger: true
 })
 
+const checkAuth = (req, res, next) => {
+  if (
+    (req.url !== '/author/login' || req.url !== '/author/register') &&
+    (!req.session || !req.session.authenticated)
+  ) {
+    res.render('Unauthorised access', { status: 403 })
+    return
+  }
+
+  next()
+}
+
 // Import the files from the tables directory to configure the /tables endpoint
 mobileApp.tables.import('./tables')
 
@@ -37,7 +50,15 @@ mobileApp.api.import('./api')
 // and returns a Promise.
 mobileApp.tables.initialize()
   .then(function () {
+    app.use(session({
+      secret: 'vxHNgaBoKYd"OMTc^z4f',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: true }
+    }))
+    app.use(checkAuth)
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
     app.listen(port) // Listen for requests
+
     console.log(`Backend API listening on port ${port}`)
   })

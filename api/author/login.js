@@ -7,8 +7,8 @@ const api = {
      */
   post: wrap(function * (req, res, next) {
     // Find matching username in the database
-    var checkAuthor = yield req.azureMobile.data.execute({
-      sql: 'SELECT TOP 1 id FROM Author WHERE username = @username AND password = @password;',
+    const checkAuthor = yield req.azureMobile.data.execute({
+      sql: 'SELECT TOP 1 * FROM Author WHERE username = @username AND password = @password;',
       parameters: [
         { name: 'username', value: req.body.Username },
         { name: 'password', value: req.body.Password }
@@ -19,6 +19,9 @@ const api = {
       res.status(500).send({ error: 'Incorrect username or password.' })
       return
     }
+
+    req.session.user = checkAuthor
+    req.session.authenticated = true
 
     res.status(200).send({msg: 'Successfully logged in!'})
   })
