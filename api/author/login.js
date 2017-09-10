@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const wrap = require('co-express')
+const response = require('../../utils/response')
 
 const api = {
   /**
@@ -16,14 +17,14 @@ const api = {
     })
 
     if (_.isEmpty(checkAuthor)) {
-      res.status(500).send({ error: 'Incorrect username or password.' })
+      response(res, 500, 'Incorrect username or password.')
       return
     }
 
     req.session.user = checkAuthor
     req.session.authenticated = true
 
-    res.status(200).send({msg: 'Successfully logged in!'})
+    response(res, 200, 'Successfully logged in!')
   })
 }
 

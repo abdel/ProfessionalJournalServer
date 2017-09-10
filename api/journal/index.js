@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const wrap = require('co-express')
+const response = require('../../utils/response')
 
 const api = {
   /**
@@ -18,10 +19,10 @@ const api = {
     // Execute insert query and return result
     req.azureMobile.data.execute(insertQuery)
       .then(function (result) {
-        res.status(200).send({ msg: 'Successfully created a journal.' })
+        response(res, 200, 'Successfully created a journal.')
       })
       .catch(function () {
-        res.status(500).send({ error: 'Failed to create a journal.' })
+        response(res, 500, 'Failed to create a journal.')
       })
   }),
 
@@ -34,7 +35,7 @@ const api = {
     })
 
     if (_.isEmpty(journals)) {
-      res.status(500).send({ error: 'No journals found for this author' })
+      response(res, 500, 'No journals found for this author')
       return
     }
 
