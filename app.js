@@ -32,7 +32,7 @@ const checkAuth = (req, res, next) => {
     (req.url !== '/author/login' || req.url !== '/author/register') &&
     (!req.session || !req.session.authenticated)
   ) {
-    res.render('Unauthorised access', { status: 403 })
+    res.status(200).send({ error: `Uanuthorised access: ${req.url}` })
     return
   }
 
