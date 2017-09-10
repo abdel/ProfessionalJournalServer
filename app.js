@@ -8,10 +8,7 @@ const port = process.env.PORT || 3000
 // Dependencies
 const morgan = require('morgan')
 const express = require('express')
-const session = require('express-session')
 const azureMobileApps = require('azure-mobile-apps')
-const MemoryStore = require('memorystore')(session)
-const FileStore = require('session-file-store')(session)
 
 // Set up a standard Express app
 const app = express()
@@ -30,27 +27,6 @@ const mobileApp = azureMobileApps({
   swagger: true
 })
 
-const checkAuth = (req, res, next) => {
-  // Allow public endpoints
-  if (
-    req.url === '/api/login' ||
-    req.url === '/api/register'
-  ) {
-    next()
-    return
-  }
-
-  console.log('Session', req.session)
-
-  // Allow authenticated users
-  if (req.session && req.session.authenticated && req.session.user) {
-    next()
-    return
-  }
-
-  res.status(401).send({ error: `Uanuthorised access: ${req.url}` })
-}
-
 // Import the files from the tables directory to configure the /tables endpoint
 mobileApp.tables.import('./tables')
 
@@ -62,16 +38,7 @@ mobileApp.api.import('./api')
 // and returns a Promise.
 mobileApp.tables.initialize()
   .then(function () {
-    app.use(session({
-      secret: 'vxHNgaBoKYd"OMTc^z4f',
-      resave: false,
-      saveUninitialized: true,
-      store: new FileStore({
-        ttl: 86400000
-      })
-    }))
-    app.use(morgan('combined'))
-    app.use(checkAuth)
+    app.use(morgan('combined')) // Log requests
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
     app.listen(port) // Listen for requests
 

@@ -17,11 +17,8 @@
     "co": "^4.6.0",
     "co-express": "^2.0.0",
     "express": "^4.13.0",
-    "express-session": "^1.15.5",
     "lodash": "^4.17.4",
-    "memorystore": "^1.5.0",
     "morgan": "^1.8.2",
-    "session-file-store": "^1.1.2",
     "swagger-ui": "^2.2.8"
   },
   "devDependencies": {
