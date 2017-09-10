@@ -5,7 +5,8 @@
 // Constants
 const port = process.env.PORT || 3000
 
-// This is a base-level Azure Mobile App SDK.
+// Dependencies
+const morgan = require('morgan')
 const express = require('express')
 const session = require('express-session')
 const azureMobileApps = require('azure-mobile-apps')
@@ -38,6 +39,8 @@ const checkAuth = (req, res, next) => {
     return
   }
 
+  console.log('Session', req.session)
+
   // Allow authenticated users
   if (req.session && req.session.authenticated && req.session.user) {
     next()
@@ -66,6 +69,7 @@ mobileApp.tables.initialize()
         checkPeriod: 86400000 // prune expired entries every 24h 
       })
     }))
+    app.use(morgan('combined'))
     app.use(checkAuth)
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
     app.listen(port) // Listen for requests
