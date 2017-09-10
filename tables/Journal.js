@@ -1,15 +1,15 @@
-var azureMobileApps = require('azure-mobile-apps');
+const azureMobileApps = require('azure-mobile-apps')
 
-var table = azureMobileApps.table();
+const table = azureMobileApps.table()
 
 // Defines the list of columns
 table.columns = {
-  "title": "string",
-  "author_id": "string",
-  "description": "string"
-};
+  'title': 'string',
+  'author_id': 'string',
+  'description': 'string'
+}
 
 // Turns off dynamic schema
-table.dynamicSchema = false;
+table.dynamicSchema = false
 
-module.exports = table;
+module.exports = table
