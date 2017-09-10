@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const wrap = require('co-express')
-const response = require('../../utils/response')
+const response = require('../utils/response')
 
 const api = {
   /**
@@ -40,7 +40,6 @@ const api = {
     req.azureMobile.data.execute(insertQuery)
       .then(function (result) {
         response(res, 200, 'Successfully registered author.')
-        res.status(200).send({ msg: '' })
       })
       .catch(function () {
         response(res, 500, 'Failed to register author.')

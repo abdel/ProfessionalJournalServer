@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const wrap = require('co-express')
-const response = require('../../utils/response')
+const response = require('../utils/response')
 
 const api = {
   /**
