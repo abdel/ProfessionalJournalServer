@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const wrap = require('co-express')
 
 const api = {

@@ -30,14 +30,14 @@ const mobileApp = azureMobileApps({
 
 const checkAuth = (req, res, next) => {
   if (
-    (req.url !== '/author/login' || req.url !== '/author/register') &&
-    (!req.session || !req.session.authenticated)
+    req.url === '/api/login' ||
+    req.url === '/api/register'
   ) {
-    res.status(200).send({ error: `Uanuthorised access: ${req.url}` })
+    next()
     return
   }
 
-  next()
+  res.status(401).send({ error: `Uanuthorised access: ${req.url}` })
 }
 
 // Import the files from the tables directory to configure the /tables endpoint

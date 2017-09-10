@@ -1,6 +1,5 @@
 const _ = require('lodash')
 const wrap = require('co-express')
-const response = require('../utils/response')
 
 const api = {
   /**
@@ -18,7 +17,7 @@ const api = {
 
     // Cancel registration if username is not unique
     if (!_.isEmpty(checkUsername)) {
-      response(res, 500, 'Username already exists.')
+      res.status(500).send({ error: 'Username already exists.' })
       return
     }
 
@@ -39,10 +38,10 @@ const api = {
     // Execute insert query and return result
     req.azureMobile.data.execute(insertQuery)
       .then(function (result) {
-        response(res, 200, 'Successfully registered author.')
+        res.status(200).send({ msg: 'Successfully registered author.' })
       })
       .catch(function () {
-        response(res, 500, 'Failed to register author.')
+        res.status(500).send({ error: 'Failed to register author.' })
       })
   })
 }
