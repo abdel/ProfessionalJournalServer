@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000
 const express = require('express')
 const session = require('express-session')
 const azureMobileApps = require('azure-mobile-apps')
+const MemoryStore = require('memorystore')(session)
 
 // Set up a standard Express app
 const app = express()
@@ -54,7 +55,9 @@ mobileApp.tables.initialize()
       secret: 'vxHNgaBoKYd"OMTc^z4f',
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: true }
+      store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h 
+      })
     }))
     app.use(checkAuth)
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
