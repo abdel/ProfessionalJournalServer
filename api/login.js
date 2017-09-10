@@ -22,6 +22,7 @@ const api = {
 
     req.session.user = checkAuthor
     req.session.authenticated = true
+    req.session.save()
 
     res.status(200).send({ msg: 'Successfully logged in!' })
   })

@@ -11,6 +11,7 @@ const express = require('express')
 const session = require('express-session')
 const azureMobileApps = require('azure-mobile-apps')
 const MemoryStore = require('memorystore')(session)
+const FileStore = require('session-file-store')(session)
 
 // Set up a standard Express app
 const app = express()
@@ -65,8 +66,8 @@ mobileApp.tables.initialize()
       secret: 'vxHNgaBoKYd"OMTc^z4f',
       resave: false,
       saveUninitialized: true,
-      store: new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h 
+      store: new FileStore({
+        ttl: 86400000
       })
     }))
     app.use(morgan('combined'))
