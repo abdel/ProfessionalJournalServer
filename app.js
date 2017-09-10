@@ -29,10 +29,17 @@ const mobileApp = azureMobileApps({
 })
 
 const checkAuth = (req, res, next) => {
+  // Allow public endpoints
   if (
     req.url === '/api/login' ||
     req.url === '/api/register'
   ) {
+    next()
+    return
+  }
+
+  // Allow authenticated users
+  if (req.session && req.session.authenticated && req.session.user) {
     next()
     return
   }
