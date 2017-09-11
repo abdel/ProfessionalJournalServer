@@ -29,7 +29,7 @@ const api = {
     const journals = yield req.azureMobile.data.execute({
       sql: 'SELECT * FROM Journal WHERE author_id = @username;',
       parameters: [
-        { name: 'author_id', value: req.session.user.Id }
+        { name: 'author_id', value: req.azureMobile.user.Id }
       ]
     })
 

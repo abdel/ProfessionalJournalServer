@@ -10,6 +10,9 @@ const morgan = require('morgan')
 const express = require('express')
 const azureMobileApps = require('azure-mobile-apps')
 
+// Middlewares
+const auth = require('./middlewares/auth')
+
 // Set up a standard Express app
 const app = express()
 
@@ -38,6 +41,7 @@ mobileApp.api.import('./api')
 // and returns a Promise.
 mobileApp.tables.initialize()
   .then(function () {
+    app.use(auth) // Authentication middleware
     app.use(morgan('combined')) // Log requests
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
     app.listen(port) // Listen for requests

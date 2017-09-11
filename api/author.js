@@ -49,12 +49,7 @@ const api = {
 
 function createResponse (sign, author) {
   return {
-    // this JWT token must be applied on the Mobile Apps client using the appropriate client APIs
-    token: sign({
-      // sub is the only required property. this becomes context.user.id
-      // you can add other claims here. they become available as context.user.claims
-      sub: author.Username
-    })
+    Token: sign({ sub: author.Id })
   }
 }
 
