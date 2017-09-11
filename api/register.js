@@ -11,7 +11,7 @@ const api = {
     var checkUsername = yield req.azureMobile.data.execute({
       sql: 'SELECT username FROM Author WHERE username = @username',
       parameters: [
-        { name: 'username', value: req.body.Username }
+        { name: 'username', value: req.body.username }
       ]
     })
 
@@ -24,12 +24,12 @@ const api = {
     // Insert new author
     req.azureMobile.tables('Author')
       .insert({
-        username: req.body.Username,
-        password: req.body.Password,
-        first_name: req.body.FirstName,
-        last_name: req.body.LastName,
-        email: req.body.Email,
-        date_of_birth: req.body.DateOfBirth
+        username: req.body.username,
+        password: req.body.password,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        date_of_birth: req.body.date_of_birth
       })
       .then(function (author) {
         res.status(200).send({ msg: 'Successfully registered author.' })

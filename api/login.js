@@ -14,8 +14,8 @@ const api = {
     const author = yield req.azureMobile.data.execute({
       sql: 'SELECT TOP 1 * FROM Author WHERE username = @username AND password = @password;',
       parameters: [
-        { name: 'username', value: req.body.Username },
-        { name: 'password', value: req.body.Password }
+        { name: 'username', value: req.body.username },
+        { name: 'password', value: req.body.password }
       ]
     })
 

@@ -10,8 +10,8 @@ const api = {
 
     context.tables('Journal')
       .insert({
-        title: req.body.Title,
-        description: req.body.Description,
+        title: req.body.title,
+        description: req.body.description,
         author_id: context.user.id
       })
       .then(function (journal) {
