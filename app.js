@@ -41,9 +41,10 @@ mobileApp.api.import('./api')
 // and returns a Promise.
 mobileApp.tables.initialize()
   .then(function () {
-    app.use(auth) // Authentication middleware
     app.use(morgan('combined')) // Log requests
     app.use(mobileApp) // Register the Azure Mobile Apps middleware
+    app.use(auth) // Authentication middleware
+
     app.listen(port) // Listen for requests
 
     console.log(`Backend API listening on port ${port}`)

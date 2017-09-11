@@ -22,22 +22,16 @@ const api = {
     }
 
     // Insert new author
-    var insertQuery = {
-      sql: `INSERT INTO Author (first_name, last_name, username, password, email, date_of_birth) 
-            VALUES (@first_name, @last_name, @username, @password, @email, @date_of_birth)`,
-      parameters: [
-        { name: 'username', value: req.body.Username },
-        { name: 'password', value: req.body.Password },
-        { name: 'first_name', value: req.body.FirstName },
-        { name: 'last_name', value: req.body.LastName },
-        { name: 'email', value: req.body.Email },
-        { name: 'date_of_birth', value: req.body.DateOfBirth }
-      ]
-    }
-
-    // Execute insert query and return result
-    req.azureMobile.data.execute(insertQuery)
-      .then(function (result) {
+    req.azureMobile.tables('Author')
+      .insert({
+        username: req.body.Username,
+        password: req.body.Password,
+        first_name: req.body.FirstName,
+        last_name: req.body.LastName,
+        email: req.body.Email,
+        date_of_birth: req.body.DateOfBirth
+      })
+      .then(function (author) {
         res.status(200).send({ msg: 'Successfully registered author.' })
       })
       .catch(function () {

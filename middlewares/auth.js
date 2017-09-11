@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   const context = req.azureMobile
 
   // Allow non-authenticated URLs
-  if (req.url === '/api/author') {
+  if (req.url === '/api/login' || req.url === '/api/register') {
     next()
     return
   }
@@ -14,14 +14,14 @@ module.exports = (req, res, next) => {
       context.configuration.auth &&
       Object.keys(context.configuration.auth).length === 0
   ) {
-    res.status(200).send({ error: 'Failed to authenticate token.' })
+    res.status(500).send({ error: 'Failed to authenticate token.' })
     return
   }
 
   // Authenticate tokens
   const authUtils = azureAuth(context.configuration.auth)
-
   const token = req.get('x-zumo-auth')
+
   if (token) {
     req.azureMobile = req.azureMobile || {}
     req.azureMobile.auth = authUtils

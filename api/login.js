@@ -25,31 +25,12 @@ const api = {
     }
 
     res.status(200).json(createResponse(sign, author[0]))
-  }),
-
-  put: wrap(function * (req, res, next) {
-    const context = req.azureMobile
-    const sign = auth(context.configuration.auth).sign
-
-    context.tables('Author')
-      .insert({
-        username: req.body.Username,
-        password: req.body.Password,
-        first_name: req.body.FirstName,
-        last_name: req.body.LastName,
-        email: req.body.Email,
-        date_of_birth: req.body.DateOfBirth
-      })
-      .then(function (author) {
-        res.status(200).json(createResponse(sign, author))
-      })
-      .catch(next)
   })
 }
 
 function createResponse (sign, author) {
   return {
-    Token: sign({ sub: author.Id })
+    Token: sign({ sub: author.id })
   }
 }
 
