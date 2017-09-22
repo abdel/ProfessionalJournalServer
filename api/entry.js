@@ -40,19 +40,19 @@ const api = {
   }),
 
   get: wrap(function * (req, res, next) {
-    const journals = yield req.azureMobile.data.execute({
-      sql: 'SELECT * FROM Journal WHERE author_id = @author_id;',
+    const entry = yield req.azureMobile.data.execute({
+      sql: 'SELECT * FROM Entry WHERE id = @id;',
       parameters: [
-        { name: 'author_id', value: req.azureMobile.user.id }
+        { name: 'id', value: req.query.id }
       ]
     })
 
-    if (_.isEmpty(journals)) {
-      res.status(500).send({ error: 'No journals found for this author' })
+    if (_.isEmpty(entry)) {
+      res.status(500).send({ error: 'Entry not found.' })
       return
     }
 
-    res.status(200).send({ journals })
+    res.status(200).send({ entry })
   })
 }
 
