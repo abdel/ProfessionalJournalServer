@@ -34,8 +34,12 @@ const api = {
       return
     }
 
-    yield context.tables('Entry').update(entry, {
-      entry_version_id: entryVersion.id
+    yield req.azureMobile.data.execute({
+      sql: `UPDATE Entry SET entry_version_id = @entry_version_id WHERE id = @id;`,
+      parameters: [
+        { name: 'id', value: entry.id },
+        { name: 'entry_version_id', value: entryVersion.id }
+      ]
     })
   }),
 
