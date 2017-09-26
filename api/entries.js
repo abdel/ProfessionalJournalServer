@@ -15,6 +15,17 @@ const api = {
       return
     }
 
+    for (let i = 0; i < entries.length; i++) {
+      const entryVersion = yield req.azureMobile.data.execute({
+        sql: `SELECT * FROM EntryVersion WHERE id = @id;`,
+        parameters: [
+          { name: 'id', value: entries[i].entry_version_id }
+        ]
+      })
+
+      entries[i].entry_version = entryVersion[0]
+    }
+
     res.status(200).send({ entries })
   })
 }
