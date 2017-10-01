@@ -46,11 +46,10 @@ const api = {
   put: wrap(function * (req, res, next) {
     const context = req.azureMobile
 
-    console.log(req.body);
     const entryVersion = yield context.tables('EntryVersion').insert({
       entry_id: req.body.id,
       text_entry: req.body.entry_version.text_entry,
-      version_track_id: req.body.entry_version.version_track_id + 1,
+      version_track_id: req.body.entry_version.version_track_id,
       modify_reason: req.body.entry_version.modify_reason,
       attachment: null
     })
