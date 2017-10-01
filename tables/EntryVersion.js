@@ -7,7 +7,7 @@ table.columns = {
   'text_entry': 'string',
   'attachment': 'string',
   'modify_reason': 'string',
-  'version_track_id': 'string',
+  'version_track_id': 'number',
   'entry_id': 'string'
 }
 

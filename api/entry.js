@@ -43,6 +43,32 @@ const api = {
     })
   }),
 
+  put: wrap(function * (req, res, next) {
+    const context = req.azureMobile
+
+    console.log(req.body);
+    const entryVersion = yield context.tables('EntryVersion').insert({
+      entry_id: req.body.id,
+      text_entry: req.body.entry_version.text_entry,
+      version_track_id: req.body.entry_version.version_track_id + 1,
+      modify_reason: req.body.entry_version.modify_reason,
+      attachment: null
+    })
+
+    if (!entryVersion) {
+      res.status(500).send({ error: 'Failed to create entry version. Please try again.' })
+      return
+    }
+
+    yield req.azureMobile.data.execute({
+      sql: `UPDATE Entry SET entry_version_id = @entry_version_id WHERE id = @id;`,
+      parameters: [
+        { name: 'id', value: req.body.id },
+        { name: 'entry_version_id', value: entryVersion.id }
+      ]
+    })
+  }),
+
   get: wrap(function * (req, res, next) {
     const entry = yield req.azureMobile.data.execute({
       sql: 'SELECT * FROM Entry WHERE id = @id;',
