@@ -3,8 +3,27 @@ const wrap = require('co-express')
 
 const api = {
   /**
-     * Creates a new entry
-     */
+   * Get entry
+   */
+  get: wrap(function * (req, res, next) {
+    const entry = yield req.azureMobile.data.execute({
+      sql: 'SELECT * FROM Entry WHERE id = @id;',
+      parameters: [
+        { name: 'id', value: req.query.id }
+      ]
+    })
+
+    if (_.isEmpty(entry)) {
+      res.status(500).send({ error: 'Entry not found.' })
+      return
+    }
+
+    res.status(200).send({ entry })
+  }),
+
+  /**
+   * Create a new entry
+   */
   post: wrap(function * (req, res, next) {
     const context = req.azureMobile
 
@@ -43,6 +62,9 @@ const api = {
     })
   }),
 
+  /**
+   * Modify the entry
+   */
   put: wrap(function * (req, res, next) {
     const context = req.azureMobile
 
@@ -68,20 +90,17 @@ const api = {
     })
   }),
 
-  get: wrap(function * (req, res, next) {
-    const entry = yield req.azureMobile.data.execute({
-      sql: 'SELECT * FROM Entry WHERE id = @id;',
+  /**
+   * Mark entry as deleted
+   */
+  delete: wrap(function * (req, res, next) {
+    yield req.azureMobile.data.execute({
+      sql: 'UPDATE Entry SET deleted = @deleted WHERE id = @entry_id;',
       parameters: [
-        { name: 'id', value: req.query.id }
+        { name: 'deleted', value: true },
+        { name: 'entry_id', value: req.query.id }
       ]
     })
-
-    if (_.isEmpty(entry)) {
-      res.status(500).send({ error: 'Entry not found.' })
-      return
-    }
-
-    res.status(200).send({ entry })
   })
 }
 
