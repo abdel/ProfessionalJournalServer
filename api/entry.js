@@ -7,9 +7,9 @@ const api = {
    */
   get: wrap(function * (req, res, next) {
     const entry = yield req.azureMobile.data.execute({
-      sql: 'SELECT * FROM Entry WHERE id = @id;',
+      sql: 'SELECT * FROM Entry WHERE id = @entry_id;',
       parameters: [
-        { name: 'id', value: req.query.id }
+        { name: 'entry_id', value: req.query.entry_id }
       ]
     })
 
@@ -98,7 +98,7 @@ const api = {
       sql: 'UPDATE Entry SET deleted = @deleted WHERE id = @entry_id;',
       parameters: [
         { name: 'deleted', value: true },
-        { name: 'entry_id', value: req.query.id }
+        { name: 'entry_id', value: req.query.entry_id }
       ]
     })
   })
