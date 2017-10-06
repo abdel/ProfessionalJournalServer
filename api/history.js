@@ -3,10 +3,15 @@ const wrap = require('co-express')
 
 const api = {
   get: wrap(function * (req, res, next) {
+    const entry = yield req.azureMobile.data.execute({
+      sql: `SELECT * FROM Entry WHERE id = @entry_id;`,
+      parameters: [
+        { name: 'entry_id', value: req.query.entry_id }
+      ]
+    })
+
     const versions = yield req.azureMobile.data.execute({
-      sql: `SELECT * FROM EntryVersion as v
-            INNER JOIN Entry as e ON v.entry_id = e.id
-            WHERE v.entry_id = @entry_id;`,
+      sql: `SELECT * FROM EntryVersion WHERE entry_id = @entry_id ORDER BY version_track_id DESC;`,
       parameters: [
         { name: 'entry_id', value: req.query.entry_id }
       ]
@@ -17,7 +22,16 @@ const api = {
       return
     }
 
-    res.status(200).send({ versions })
+    const entries = []
+    for (let i = 0; i < versions.length; i++) {
+      entries[i] = {
+        id: entry[0].id,
+        title: entry[0].title
+      }
+      entries[i].entry_version = versions[i]
+    }
+
+    res.status(200).send({ entries })
   })
 }
 
