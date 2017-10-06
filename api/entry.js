@@ -25,7 +25,7 @@ const api = {
       entry_id: entry.id,
       text_entry: req.body.entry_version.text_entry,
       version_track_id: 1,
-      modify_reason: null,
+      modify_reason: 'Initial version',
       attachment: null
     })
 
