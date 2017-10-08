@@ -3,7 +3,7 @@ const wrap = require('co-express')
 
 const api = {
   get: wrap(function * (req, res, next) {
-    let entryQuery = `SELECT * FROM Entry WHERE journal_id = @journal_id AND deleted = @deleted AND hidden = @hidden`
+    let entryQuery = `SELECT * FROM Entry WHERE journal_id = @journal_id`
     const entryParams = [ { name: 'journal_id', value: req.query.journal_id } ]
 
     console.log(req.query)
@@ -13,15 +13,9 @@ const api = {
       entryParams.push({ name: 'title', value: req.query.text })
     }
 
-    if (req.query.deleted === 'True') {
-      entryParams.push({ name: 'deleted', value: true })
-    } else {
+    if (req.query.deleted === 'False' && req.query.hidden === 'False') {
+      entryQuery += ` AND deleted = @deleted AND hidden = @hidden`
       entryParams.push({ name: 'deleted', value: false })
-    }
-
-    if (req.query.hidden === 'True') {
-      entryParams.push({ name: 'hidden', value: true })
-    } else {
       entryParams.push({ name: 'hidden', value: false })
     }
 
