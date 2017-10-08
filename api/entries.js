@@ -3,24 +3,26 @@ const wrap = require('co-express')
 
 const api = {
   get: wrap(function * (req, res, next) {
-    let entryQuery = `SELECT * FROM Entry WHERE journal_id = @journal_id`
+    let entryQuery = `SELECT * FROM Entry WHERE journal_id = @journal_id AND deleted = @deleted AND hidden = @hidden`
     const entryParams = [ { name: 'journal_id', value: req.query.journal_id } ]
 
     console.log(req.query)
 
     if (req.query.text !== '') {
-      entryQuery += ` AND title LIKE '%@title%'`
+      entryQuery += ` AND title LIKE '%` + req.query.text + `%'`
       entryParams.push({ name: 'title', value: req.query.text })
     }
 
     if (req.query.deleted === 'True') {
-      entryQuery += ` AND deleted = @deleted`
       entryParams.push({ name: 'deleted', value: true })
+    } else {
+      entryParams.push({ name: 'deleted', value: false })
     }
 
     if (req.query.hidden === 'True') {
-      entryQuery += ` AND hidden = @hidden`
       entryParams.push({ name: 'hidden', value: true })
+    } else {
+      entryParams.push({ name: 'hidden', value: false })
     }
 
     const entries = yield req.azureMobile.data.execute({
