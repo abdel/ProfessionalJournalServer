@@ -6,9 +6,11 @@ const api = {
     let entryQuery = `SELECT * FROM Entry WHERE journal_id = @journal_id`
     const entryParams = [ { name: 'journal_id', value: req.query.journal_id } ]
 
+    console.log(req.query)
+
     if (req.query.text !== null) {
       entryQuery += ` AND title LIKE '%@title%'`
-      entryQuery.push({ name: 'title', value: req.query.text })
+      entryParams.push({ name: 'title', value: req.query.text })
     }
 
     if (req.query.deleted === true) {
