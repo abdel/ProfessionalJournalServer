@@ -8,17 +8,17 @@ const api = {
 
     console.log(req.query)
 
-    if (req.query.text !== null) {
+    if (req.query.text !== '') {
       entryQuery += ` AND title LIKE '%@title%'`
       entryParams.push({ name: 'title', value: req.query.text })
     }
 
-    if (req.query.deleted === true) {
+    if (req.query.deleted === 'True') {
       entryQuery += ` AND deleted = @deleted`
       entryParams.push({ name: 'deleted', value: true })
     }
 
-    if (req.query.hidden === true) {
+    if (req.query.hidden === 'True') {
       entryQuery += ` AND hidden = @hidden`
       entryParams.push({ name: 'hidden', value: true })
     }
