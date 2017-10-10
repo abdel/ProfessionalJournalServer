@@ -7,7 +7,7 @@ const api = {
   post: wrap(function * (req, res, next) {
     const context = req.azureMobile
 
-    const entry = yield context.data.execute({
+    yield context.data.execute({
       sql: `UPDATE Entry SET hidden = @hidden WHERE id = @entry_id;`,
       parameters: [
         { name: 'hidden', value: true },
@@ -15,12 +15,7 @@ const api = {
       ]
     })
 
-    if (!entry) {
-      res.status(500).send({ error: 'Failed to hide entry. Please try again.' })
-      return
-    }
-
-    res.status(200).send({ entry })
+    res.status(200).send({ hidden: true })
   })
 }
 
