@@ -19,6 +19,8 @@ const api = {
       entryParams.push({ name: 'hidden', value: false })
     }
 
+    entryQuery += ` ORDER BY createdAt DESC`
+
     const entries = yield req.azureMobile.data.execute({
       sql: entryQuery,
       parameters: entryParams
