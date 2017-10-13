@@ -30,7 +30,7 @@ const api = {
     const entry = yield context.tables('Entry').insert({
       title: req.body.title,
       journal_id: req.body.journal_id,
-      location: null,
+      location: req.body.location,
       deleted: false,
       hidden: false
     })
