@@ -26,7 +26,8 @@ const api = {
     for (let i = 0; i < versions.length; i++) {
       entries[i] = {
         id: entry[0].id,
-        title: entry[0].title
+        title: entry[0].title,
+        location: entry[0].location
       }
       entries[i].entry_version = versions[i]
     }
