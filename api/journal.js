@@ -25,7 +25,7 @@ const api = {
 
   get: wrap(function * (req, res, next) {
     const journals = yield req.azureMobile.data.execute({
-      sql: 'SELECT * FROM Journal WHERE author_id = @author_id;',
+      sql: 'SELECT * FROM Journal WHERE author_id = @author_id ORDER BY createdAt DESC;',
       parameters: [
         { name: 'author_id', value: req.azureMobile.user.id }
       ]

@@ -19,7 +19,21 @@ const api = {
       entryParams.push({ name: 'hidden', value: false })
     }
 
-    console.log(req.query.dates)
+    if (req.query.minDate !== '' && req.query.maxDate !== '') {
+      const minDate = new Date(req.query.minDate)
+      minDate.setHours(0)
+      minDate.setMinutes(0)
+      minDate.setSeconds(0)
+
+      const maxDate = new Date(req.query.maxDate)
+      maxDate.setHours(23)
+      maxDate.setMinutes(59)
+      maxDate.setSeconds(59)
+
+      entryQuery += ` AND (createdAt >= @minDate AND createdAt <= @maxDate)`
+      entryParams.push({ name: 'minDate', value: minDate.toISOString() })
+      entryParams.push({ name: 'maxDate', value: maxDate.toISOString() })
+    }
 
     entryQuery += ` ORDER BY createdAt DESC`
 
